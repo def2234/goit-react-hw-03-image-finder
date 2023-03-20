@@ -1,18 +1,10 @@
-import React, { Component } from 'react';
-import { GetImage } from '../GetImage/GetImage';
 import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
-import { Button } from '../Button/Button';
-import { PendingViewImage } from '../PendingViewImage/PendingViewImage';
+import { PendingViewImage } from '../Loader/Loader';
+import PropTypes from 'prop-types';
 
-export const ImageGallery = ({
-  status,
-  error,
-  image,
-  onPictureClick,
-  onClick,
-}) => {
+export const ImageGallery = ({ status, error, image, onPictureClick }) => {
   return (
-    <ul onClick={onPictureClick}>
+    <ul>
       {status === 'rejected' && <h1>{error.message}</h1>}
       {status === 'pending' && <PendingViewImage />}
       {status === 'resolved' &&
@@ -27,26 +19,10 @@ export const ImageGallery = ({
   );
 };
 
-// render() {
-//     return (
-//       <ul onClick={this.props.onPictureClick}>
-//         {this.props.status === 'rejected' && (
-//           <h1>{this.props.error.message}</h1>
-//         )}
-//         {this.props.status === 'pending' && <PendingViewImage />}
-//         {this.props.status === 'resolved' &&
-//           this.props.image.map(picture => (
-//             <ImageGalleryItem
-//               key={picture.id}
-//               pictureUrl={picture}
-//               clickPicture={() =>
-//                 this.props.onPictureClick(picture.largeImageURL)
-//               }
-//             />
-//           ))}
-//         {this.props.status === 'resolved' && (
-//           <Button onClick={this.props.onClick} />
-//         )}
-//       </ul>
-//     );
-//   },
+ImageGallery.propTypes = {
+  image: PropTypes.arrayOf(PropTypes.object.isRequired),
+  status: PropTypes.string.isRequired,
+  error: PropTypes.shape({ message: PropTypes.string.isRequired }),
+
+  onPictureClick: PropTypes.func.isRequired,
+};

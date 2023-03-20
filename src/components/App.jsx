@@ -9,7 +9,7 @@ export class App extends Component {
   state = {
     serchValue: '',
     showModal: false,
-    image: null,
+    image: [],
     error: null,
     page: 1,
     status: 'idl',
@@ -83,12 +83,25 @@ export class App extends Component {
 
   handleOnPictureClick = largeImageURL => {
     this.setState({ showModal: true, largeImageURL });
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${window.scrollY}px`;
+  };
+
+  closeModal = () => {
+    this.setState({ showModal: false, largeImageURL: '' });
+    document.body.style.position = '';
+    document.body.style.top = '';
   };
 
   render() {
     return (
       <>
-        {this.state.showModal && <Modal image={this.state.largeImageURL} />}
+        {this.state.showModal && (
+          <Modal
+            image={this.state.largeImageURL}
+            closeModal={this.closeModal}
+          />
+        )}
         <Searchbar onSubmit={this.formOnsubmitHandler} />
         <ImageGallery
           serchValue={this.state.serchValue}

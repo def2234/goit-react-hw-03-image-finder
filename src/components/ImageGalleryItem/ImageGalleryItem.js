@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 export const ImageGalleryItem = ({ pictureUrl, clickPicture }) => {
   return (
     <>
@@ -12,18 +14,11 @@ export const ImageGalleryItem = ({ pictureUrl, clickPicture }) => {
   );
 };
 
-// export const ImageGalleryItem = ({ serchImage }) => {
-//   return (
-//     <>
-//       {serchImage.map(
-//         ({ id, webformatURL, largeImageURL, tags, clickPicture }) => {
-//           return (
-//             <li key={id} onClick={() => clickPicture(largeImageURL)}>
-//               <img src={webformatURL} alt={tags} />
-//             </li>
-//           );
-//         }
-//       )}
-//     </>
-//   );
-// };
+ImageGalleryItem.propTypes = {
+  clickPicture: PropTypes.func.isRequired,
+  pictureUrl: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    webformatURL: PropTypes.string.isRequired,
+    tags: PropTypes.string.isRequired,
+  }).isRequired,
+};
