@@ -1,10 +1,11 @@
 import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
 import { PendingViewImage } from '../Loader/Loader';
 import PropTypes from 'prop-types';
+import { Ul } from '../ImageGallery/ImageGallery.styled';
 
 export const ImageGallery = ({ status, error, image, onPictureClick }) => {
   return (
-    <ul>
+    <Ul>
       {status === 'rejected' && <h1>{error.message}</h1>}
       {status === 'pending' && <PendingViewImage />}
       {status === 'resolved' &&
@@ -15,7 +16,7 @@ export const ImageGallery = ({ status, error, image, onPictureClick }) => {
             clickPicture={() => onPictureClick(picture.largeImageURL)}
           />
         ))}
-    </ul>
+    </Ul>
   );
 };
 

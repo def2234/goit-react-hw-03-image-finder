@@ -95,14 +95,16 @@ export class App extends Component {
 
   render() {
     return (
-      <>
+      <section>
         {this.state.showModal && (
           <Modal
             image={this.state.largeImageURL}
             closeModal={this.closeModal}
           />
         )}
+
         <Searchbar onSubmit={this.formOnsubmitHandler} />
+
         <ImageGallery
           serchValue={this.state.serchValue}
           error={this.state.error}
@@ -113,7 +115,7 @@ export class App extends Component {
         {this.state.status === 'resolved' && (
           <Button onClick={this.handleClickButton} />
         )}
-      </>
+      </section>
     );
   }
 }
