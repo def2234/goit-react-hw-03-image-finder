@@ -1,9 +1,11 @@
+import { Section } from './Section-styled';
 import React, { Component } from 'react';
 import { Searchbar } from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Modal } from './Modal/Modal';
-import { GetImage } from './GetImage/GetImage';
+import { GetImage } from '../GetImage/GetImage';
 import { Button } from './Button/Button';
+import { Loader } from './Loader/Loader';
 
 export class App extends Component {
   state = {
@@ -21,7 +23,7 @@ export class App extends Component {
     const { page, serchValue } = this.state;
 
     if (prevState.serchValue !== serchValue) {
-      this.setState({ image: null, status: 'pending' });
+      this.setState({ status: 'pending' });
       GetImage(serchValue, page)
         .then(item => {
           console.log(item.hits.length);
@@ -94,28 +96,27 @@ export class App extends Component {
   };
 
   render() {
+    const { status, showModal, largeImageURL, error, image, serchValue } =
+      this.state;
     return (
-      <section>
-        {this.state.showModal && (
-          <Modal
-            image={this.state.largeImageURL}
-            closeModal={this.closeModal}
-          />
+      <Section>
+        {showModal && (
+          <Modal image={largeImageURL} closeModal={this.closeModal} />
         )}
 
         <Searchbar onSubmit={this.formOnsubmitHandler} />
-
-        <ImageGallery
-          serchValue={this.state.serchValue}
-          error={this.state.error}
-          image={this.state.image}
-          status={this.state.status}
-          onPictureClick={this.handleOnPictureClick}
-        />
-        {this.state.status === 'resolved' && (
-          <Button onClick={this.handleClickButton} />
+        {status === 'rejected' && <h1>{error.message}</h1>}
+        {status === 'pending' && <Loader />}
+        {status === 'resolved' && (
+          <ImageGallery
+            serchValue={serchValue}
+            image={image}
+            onPictureClick={this.handleOnPictureClick}
+          ></ImageGallery>
         )}
-      </section>
+
+        {status === 'resolved' && <Button onClick={this.handleClickButton} />}
+      </Section>
     );
   }
 }
